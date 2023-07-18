@@ -13,8 +13,10 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
   <ProductsProvider>
-    <CartProvider>
-      <App />
-    </CartProvider>
+    <FilterProvider>
+      <CartProvider>
+        <App />
+      </CartProvider>
+    </FilterProvider>
   </ProductsProvider>
 );

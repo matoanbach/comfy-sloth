@@ -40,7 +40,6 @@ export const CartProvider = ({ children }) => {
   useEffect(() => {
     dispatch({ type: COUNT_CART_TOTALS });
   }, [state.cart]);
-  console.log(state);
   return (
     <CartContext.Provider
       value={{ ...state, addToCart, removeItem, clearCart, toggleAmount }}

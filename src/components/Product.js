@@ -9,10 +9,6 @@ const Product = ({
   name,
   price,
   image,
-  colors,
-  company,
-  description,
-  category,
 }) => {
   return (
     <Wrapper>

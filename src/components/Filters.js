@@ -1,12 +1,132 @@
-import React from 'react'
-import styled from 'styled-components'
-import { useFilterContext } from '../context/filter_context'
-import { getUniqueValues, formatPrice } from '../utils/helpers'
-import { FaCheck } from 'react-icons/fa'
+import React from "react";
+import styled from "styled-components";
+import { useFilterContext } from "../context/filter_context";
+import { getUniqueValues, formatPrice } from "../utils/helpers";
+import { FaCheck } from "react-icons/fa";
 
 const Filters = () => {
-  return <h4>filters</h4>
-}
+  const {
+    all_products,
+    updateFilters,
+    clearFilters,
+    filters: {
+      text,
+      category,
+      company,
+      color,
+      min_price,
+      price,
+      max_price,
+      shipping,
+    },
+  } = useFilterContext();
+
+  let categories = getUniqueValues(all_products, "category");
+  let companies = getUniqueValues(all_products, "company");
+  let colors = getUniqueValues(all_products, "colors");
+  return (
+    <Wrapper>
+      <div className="content" onSubmit={(e) => e.preventDefault()}>
+        <form>
+          <div className="form-control">
+            <input
+              type="text"
+              name="text"
+              placeholder="search"
+              className="search-input"
+              value={text}
+              onChange={updateFilters}
+            />
+          </div>
+          <div className="form-control">
+            <h5>category</h5>
+            {categories.map((c, index) => {
+              return (
+                <button
+                  key={index}
+                  type="button"
+                  name="category"
+                  className={`${
+                    category === c.toLowerCase() ? "active" : null
+                  }`}
+                  onClick={updateFilters}
+                >
+                  {c}
+                </button>
+              );
+            })}
+          </div>
+          <div className="form-control">
+            <h5>company</h5>
+            <select
+              name="company"
+              value={company}
+              className="company"
+              onChange={updateFilters}
+            >
+              {companies.map((c) => {
+                return <option value={c}>{c}</option>;
+              })}
+            </select>
+          </div>
+          <div className="form-control">
+            <h5>colors</h5>
+            <div className="colors">
+              {colors.map((c, index) => {
+                if (c === "all") {
+                  return (
+                    <button
+                      key={index}
+                      name="color"
+                      className={`${
+                        c === color ? "all-btn active" : "all-btn"
+                      }`}
+                      data-color="all"
+                      onClick={updateFilters}
+                    >
+                      all
+                    </button>
+                  );
+                }
+                return (
+                  <button
+                    key={index}
+                    name="color"
+                    className={`${
+                      c === color ? "color-btn active" : "color-btn"
+                    }`}
+                    data-color={c}
+                    style={{ background: c }}
+                    onClick={updateFilters}
+                  >
+                    {c === color ? <FaCheck /> : null}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+          <div className="form-control">
+            <h5>Price</h5>
+            <p className="price">{formatPrice(price)}</p>
+            <input
+              type="range"
+              name="price"
+              min={min_price}
+              max={max_price}
+              value={price}
+              onChange={updateFilters}
+            />
+          </div>
+          <div className="form-control shipping">
+            <label htmlFor="shipping">Free shipping</label>
+            <input type="checkbox" name="shipping" id="shipping" onClick={updateFilters}/>
+          </div>
+        </form>
+        <button type="button" className="clear-btn" onClick={clearFilters}>Clear Filters</button>
+      </div>
+    </Wrapper>
+  );
+};
 
 const Wrapper = styled.section`
   .form-control {
@@ -106,6 +226,6 @@ const Wrapper = styled.section`
       top: 1rem;
     }
   }
-`
+`;
 
-export default Filters
+export default Filters;
