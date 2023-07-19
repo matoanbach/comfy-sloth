@@ -1,12 +1,10 @@
 import React from "react";
 import {
   BrowserRouter as Router,
-  Switch,
   Route,
   Routes,
 } from "react-router-dom";
 import { Navbar, Sidebar, Footer } from "./components";
-import styled from "styled-components";
 
 import {
   Home,
@@ -21,21 +19,31 @@ import {
 } from "./pages/index";
 
 function App() {
+  console.log(process.env.REACT_APP_STRIPE_SECRET_KEY)
   return (
-    <Router>
-      <Navbar />
-      <Sidebar/>
-      <Routes>
-        <Route index element={<Home/>}></Route>
-        <Route path="about" element={<About/>}></Route>
-        <Route path="products" element={<Products/>}></Route>
-        <Route path="products/:id" element={<SingleProduct/>}></Route>
-        <Route path="cart" element={<Cart/>}></Route>
-        <Route path="checkout" element={<Checkout/>}></Route>
-        <Route path="*" element={<Error/>}></Route>
-      </Routes>
-      <Footer/>
-    </Router>
+    <AuthWrapper>
+      <Router>
+        <Navbar />
+        <Sidebar />
+        <Routes>
+          <Route index element={<Home />}></Route>
+          <Route path="about" element={<About />}></Route>
+          <Route path="products" element={<Products />}></Route>
+          <Route path="products/:id" element={<SingleProduct />}></Route>
+          <Route path="cart" element={<Cart />}></Route>
+          <Route
+            path="checkout"
+            element={
+              <PrivateRoute>
+                <Checkout />
+              </PrivateRoute>
+            }
+          ></Route>
+          <Route path="*" element={<Error />}></Route>
+        </Routes>
+        <Footer />
+      </Router>
+    </AuthWrapper>
   );
 }
 
