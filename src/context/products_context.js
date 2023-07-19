@@ -24,6 +24,7 @@ const initialState = {
   single_product: {},
 };
 
+
 const ProductsContext = React.createContext();
 
 export const ProductsProvider = ({ children }) => {
