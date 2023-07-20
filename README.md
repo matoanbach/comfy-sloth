@@ -1,1 +1,3 @@
 ## Notes
+A front-end web page for an e-commerce app demonstrates how to communicate with back-end server and utilize API for authentication
+and payment transactions ...
